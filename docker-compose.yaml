@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  authentication:
+    build: .
+    depends_on:
+      - keycloak
+    networks:
+      - auth_network
+
+  keycloak:
+    image: jboss/keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      KEYCLOAK_USER: admin
+      PROXY_ADDRESS_FORWARDING: "true"
+      REDIRECT_SOCKET: "proxy-https"
+    depends_on:
+      - database
+    networks:
+      - auth_network
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+    networks:
+      - auth_network
+
+networks:
+  auth_network:
