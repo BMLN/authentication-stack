@@ -1,7 +1,7 @@
 {
   "realm" : "master",
-  "auth-server-url" : "http://localhost:8082/auth",
-  "resource" : "mercator-services",
+  "auth-server-url" : "http://localhost:8080/auth",
+  "resource" : "master-client",
   "credentials" : {
     "secret" : ""
   }

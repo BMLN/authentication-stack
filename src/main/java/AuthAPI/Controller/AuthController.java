@@ -16,6 +16,7 @@ import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.util.HttpResponseException;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +38,8 @@ public class AuthController {
     //@Autowired
     //private RealmConfig realmConfig;
 
+    @Value("${app.resource}")
+    private String helloWorld;
 
     private Keycloak adminInstance =
 
@@ -160,5 +163,9 @@ public class AuthController {
         return response;
     }
 
+    @RequestMapping(value = "/helloWorld", method = RequestMethod.GET)
+    String helloWorld(){
+        return helloWorld == null ? "hello World" : helloWorld;
+    }
 
 }
