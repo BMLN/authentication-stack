@@ -43,11 +43,12 @@ public class AuthController {
 
     private Keycloak adminInstance =
 
-            Keycloak.getInstance("http://localhost:8082/auth",
+            Keycloak.getInstance("http://localhost:8080/auth",
             "master",
             "admin",
             "Pa55w0rd",
             "mercator-services");
+
     private RealmResource realmController = adminInstance.realm("master");
 
 
