@@ -23,6 +23,13 @@ public class Token {
         this.expiresIn = (int) keycloakToken.getExpiresIn();
     }
 
+    public Token(String accessToken, String refreshToken, int expiresIn){
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.expiresIn = expiresIn;
+    }
+
+
     public Token(String str){
 
         int i = str.indexOf("access_token");

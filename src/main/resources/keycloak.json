@@ -1,7 +1,7 @@
 {
-  "realm" : "master",
+  "realm" : "$KEYCLOAK_REALM",
   "auth-server-url" : "http://localhost:8080/auth",
-  "resource" : "master-client",
+  "resource" : "$KEYCLOAK_CLIENT",
   "credentials" : {
     "secret" : ""
   }

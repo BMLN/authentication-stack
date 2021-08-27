@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c958ed63-dce0-40ae-bd97-15b8e3255452" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_keycloak_keycloak_admin_client_9_0_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_keycloak_keycloak_common_9_0_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_keycloak_keycloak_core_9_0_3.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-services.iml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-services.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/credentials/keycloak.env" beforeDir="false" afterPath="$PROJECT_DIR$/credentials/keycloak.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AuthAPI/Model/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AuthAPI/Model/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/keycloak.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/keycloak.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Model/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AuthAPI/Model/Token.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/keycloak.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/keycloak.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +74,7 @@
       <envs>
         <env name="ADMIN_USER" value="uncleben" />
         <env name="ADMIN_PASS" value="whoaheyisthatkevin" />
+        <env name="KEYCLOAK_REALM" value="master" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="AuthAPI.AuthApiApplication" />
       <module name="auth-services" />

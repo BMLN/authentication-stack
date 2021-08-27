@@ -17,9 +17,14 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.token.TokenManager;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.util.HttpResponseException;
+import org.keycloak.representations.AccessTokenResponse;
+import org.keycloak.representations.idm.ClientInitialAccessCreatePresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.keycloak.representations.idm.authorization.AuthorizationRequest;
+import org.keycloak.representations.idm.authorization.AuthorizationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
@@ -44,8 +49,9 @@ import java.util.List;
 public class AuthController {
 
     private RealmResource realmController;
+    private Keycloak keycloak;
 
-    private AuthzClient az = AuthzClient.create();
+    //private AuthzClient az = AuthzClient.create();
 
     @Autowired
     private void connectToRealmController( @Value("${auth.user}") String username,
@@ -60,22 +66,27 @@ public class AuthController {
                 password,
                 client);
         this.realmController = keycloak.realm(realm);
+        this.keycloak = keycloak;
 
         try{
             this.realmController.clients().findAll();
+            //this.realmController.toRepresentation().setAccessTokenLifespan(90);
             System.out.println("KEYCLOAK-CONFIGURATION: successfully connected to keycloak!");
         }
         catch (Exception e) {
-            System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak");
+            System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + e.getMessage());
         }
 
     }
 
     private Token getToken(UserCredentials userData){
-        System.out.println("Token handling");
-        System.out.println(this.realmController.users().get("1337").impersonate());
-        System.out.println("retuning null");
-        return null;
+
+        Keycloak session = Keycloak.getInstance("http://localhost:8080/auth",
+                "master",
+                userData.getUsername(),
+                userData.getPassword(),
+                "master-realm");
+        return new Token(session.tokenManager().getAccessToken().getToken(), session.tokenManager().getAccessToken().getRefreshToken(), (int) session.tokenManager().getAccessToken().getExpiresIn());
         //return new Token(this.az.obtainAccessToken(userData.getUsername(), userData.getPassword()));
     }
 
@@ -131,7 +142,7 @@ public class AuthController {
         return response;
     }
 
-    //temporary
+    //keycloak adapters don't support refreshing tokens
     @RequestMapping(value = "/refresh", method = RequestMethod.POST)
     //public ResponseEntity<Token> refresh(@RequestBody Token userToken) throws IOException, InterruptedException{
     public ResponseEntity<Token> refresh(@RequestBody Token userToken) throws IOException {
@@ -143,12 +154,12 @@ public class AuthController {
         //request new accesskey
         //requestbody
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("client_id", "mercator-services"));
+        params.add(new BasicNameValuePair("client_id", "master-realm"));
         params.add(new BasicNameValuePair("grant_type", "refresh_token"));
         params.add(new BasicNameValuePair("refresh_token", refreshToken));
 
         //send post request
-        HttpPost request = new HttpPost("http://localhost:8082/auth/realms/master/protocol/openid-connect/token");
+        HttpPost request = new HttpPost("http://localhost:8080/auth/realms/master/protocol/openid-connect/token");
         request.setEntity(new UrlEncodedFormEntity(params));
         HttpClient client = new DefaultHttpClient();
         org.apache.http.HttpResponse resp = client.execute(request);
@@ -171,11 +182,6 @@ public class AuthController {
         System.out.println(resp.toString());
 
         return response;
-    }
-
-    @RequestMapping(value = "/helloWorld", method = RequestMethod.GET)
-    String helloWorld(){
-        return "|Users| = " + realmController.users().count();
     }
 
 }
