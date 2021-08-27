@@ -5,6 +5,8 @@ toDo
 - [ ] realm isn't configured correctly after startup (needs to be public and have direct access grant enabled) for authentication flow
 - [ ] remove remaining constants 
 - [ ] module name/structure
+- [ ] improve instructions
+- [ ] move to public repository
 
 
 ## ready2go authentication stack
