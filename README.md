@@ -15,9 +15,7 @@ or use the credentials defined in /credentials/keycloak.env - those can be easil
 
 ## secure your application with the authentication-stack
 
-your application needs to be able to connect to the keycloak instance, you can achieve that by adding it to the docker-network.
-
-with spring the only thing we have to do after that is to add the keycloak starter dependency: https://mvnrepository.com/artifact/org.keycloak/keycloak-spring-boot-starter
+Your application needs to be able to connect to the keycloak instance, you can achieve that by adding it to the docker-network. With spring the only thing we have to do after that is to add the keycloak starter dependency: https://mvnrepository.com/artifact/org.keycloak/keycloak-spring-boot-starter
 
 and the right configuration in your application.properties
 like:
