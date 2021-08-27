@@ -13,7 +13,7 @@ or use the credentials defined in /credentials/keycloak.env - those can be easil
 
     sudo docker-compose --env-file ./credentials/keycloak.env up
 
-## add authentication to your application
+## adding an application
 
 your application needs to be able to connect to the keycloak instance, you can achieve that by adding it to the docker-network.
 
