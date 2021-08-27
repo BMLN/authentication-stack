@@ -9,16 +9,24 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.KeycloakPrincipal;
+import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.util.HttpResponseException;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,38 +43,40 @@ import java.util.List;
 @RequestMapping("/auth")
 public class AuthController {
 
-    //@Autowired
-    //private RealmConfig realmConfig;
-
-    @Value("${app.resource}")
-    private String helloWorld;
-
-    private Keycloak adminInstance =
-
-            Keycloak.getInstance("http://localhost:8080/auth",
-            "master",
-            "admin",
-            "Pa55w0rd",
-            "mercator-services");
-
-    private RealmResource realmController = adminInstance.realm("master");
-
-
-
-    /**
-    private RealmResource realm = Keycloak.getInstance(realmConfig.getServerurl(),
-            realmConfig.getRealm(),
-            realmConfig.getUsername(),
-            realmConfig.getPassword(),
-            realmConfig.getResource()).realm(realmConfig.getResource());
-
-    **/
-
+    private RealmResource realmController;
 
     private AuthzClient az = AuthzClient.create();
 
+    @Autowired
+    private void connectToRealmController( @Value("${auth.user}") String username,
+                                           @Value("${auth.password}") String password,
+                                           @Value("${auth.realm}") String realm,
+                                           @Value("${auth.client}") String client){
+
+        Keycloak keycloak = Keycloak.getInstance(
+                "http://localhost:8080/auth",
+                realm,
+                username,
+                password,
+                client);
+        this.realmController = keycloak.realm(realm);
+
+        try{
+            this.realmController.clients().findAll();
+            System.out.println("KEYCLOAK-CONFIGURATION: successfully connected to keycloak!");
+        }
+        catch (Exception e) {
+            System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak");
+        }
+
+    }
+
     private Token getToken(UserCredentials userData){
-        return new Token(this.az.obtainAccessToken(userData.getUsername(), userData.getPassword()));
+        System.out.println("Token handling");
+        System.out.println(this.realmController.users().get("1337").impersonate());
+        System.out.println("retuning null");
+        return null;
+        //return new Token(this.az.obtainAccessToken(userData.getUsername(), userData.getPassword()));
     }
 
 
@@ -77,7 +87,6 @@ public class AuthController {
 
         //addUser() if username doesnt exist yet
         if (this.realmController.users().search(userData.getUsername()).isEmpty()){
-
             this.realmController.users().create(userData.getUserRepresentation());
             System.out.println("created new user!");
 
@@ -166,7 +175,7 @@ public class AuthController {
 
     @RequestMapping(value = "/helloWorld", method = RequestMethod.GET)
     String helloWorld(){
-        return helloWorld == null ? "hello World" : helloWorld;
+        return "|Users| = " + realmController.users().count();
     }
 
 }
