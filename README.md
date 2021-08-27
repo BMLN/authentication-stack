@@ -1,10 +1,10 @@
 # authentication-stack
-##ready2go authentication stack
+## ready2go authentication stack
 - exposed API for access requests
 - keycloak instance to offer access management for other services
 - utilize tokens to access protected services
 
-##quickstart
+## quickstart
 run
 
     "./init.sh"             - to start the instance with new credentials
@@ -13,7 +13,7 @@ or
 
     "sudo docker-compose --env-file ./credentials/keycloak.env up"          -to use the credentials defined in the projects .env, those can be easily changed there
 
-##add authentication to your application
+## add authentication to your application
 
 your application needs to be able to connect to the keycloak instance, you can achieve that by adding it to the docker-network.
 
