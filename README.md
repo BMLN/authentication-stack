@@ -4,6 +4,7 @@ toDo
 - [ ] add key generation for init script
 - [ ] realm isn't configured correctly after startup (needs to be public and have direct access grant enabled) for authentication flow
 - [ ] remove remaining constants 
+- [ ] module name/structure
 
 
 ## ready2go authentication stack
