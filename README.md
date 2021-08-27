@@ -5,13 +5,13 @@
 - utilize tokens to access protected services
 
 ## quickstart
-run
+to start the instance with newly generated credentials, run:
 
-    "./init.sh"             - to start the instance with new credentials
+    ./init.sh
 
-or
+or use the credentials defined in /credentials/keycloak.env - those can be easily changed there
 
-    "sudo docker-compose --env-file ./credentials/keycloak.env up"          -to use the credentials defined in the projects .env, those can be easily changed there
+    sudo docker-compose --env-file ./credentials/keycloak.env up
 
 ## add authentication to your application
 
