@@ -19,7 +19,7 @@ your application needs to be able to connect to the keycloak instance, you can a
 
 with spring the only thing we have to after that is to add the keycloak starter dependency: https://mvnrepository.com/artifact/org.keycloak/keycloak-spring-boot-starter
 
-and the right configuration in our application.properties
+and the right configuration in your application.properties
 like:
 
     keycloak.auth-server-url = <keycloak_address:port/auth>
