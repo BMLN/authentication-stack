@@ -28,3 +28,5 @@ like:
     keycloak.public-client = true
     keycloak.security-constraints[0].authRoles[0] = offline_access    //this is a default role
     keycloak.security-constraints[0].securityCollections[0].patterns[0] = <your/protected/endpoint>
+    
+and those endpoints will be only accessible if you provide a valid access token!
