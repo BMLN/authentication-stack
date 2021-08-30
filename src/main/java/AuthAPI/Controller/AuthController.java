@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import java.io.BufferedReader;
@@ -196,6 +197,9 @@ public class AuthController {
         catch (NotAuthorizedException exception){
             System.out.println("login failed");
             response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED); //HTTPStatus:401
+        }
+        catch (Exception exception){
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return response;
     }

@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>com.iis.services</groupId>
-    <artifactId>auth-services</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>mercator-sservices</name>
-    <description>services for mercator app</description>
+    <artifactId>auth-service</artifactId>
+    <version>0.0.1</version>
+    <name>auth-service</name>
+    <description>an auth-service for a keycloak authentication stack</description>
 
     <properties>
         <java.version>11</java.version>

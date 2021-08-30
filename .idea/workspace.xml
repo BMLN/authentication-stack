@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c958ed63-dce0-40ae-bd97-15b8e3255452" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-services.iml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/credentials/keycloak.env" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/default.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose_old.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/init.sh" beforeDir="false" afterPath="$PROJECT_DIR$/init.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +60,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/credentials" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -66,8 +76,8 @@
   <component name="RunManager">
     <configuration name="AuthApiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
-        <env name="ADMIN_USER" value="uncleben" />
-        <env name="ADMIN_PASS" value="whoaheyisthatkevin" />
+        <env name="ADMIN_USER" value="1d0eb29cae2603224aacdc4cd3865fd1186d2eb0ccc62921" />
+        <env name="ADMIN_PASS" value="86916c932415afee9c003eb0662f1d1092002447df6096c4" />
         <env name="KEYCLOAK_URL" value="http://localhost:8080/auth" />
         <env name="KEYCLOAK_REALM" value="auth-realm" />
         <env name="KEYCLOAK_CLIENT" value="auth-client" />
@@ -76,13 +86,26 @@
         <env name="AUTH_PORT" value="1337" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="AuthAPI.AuthApiApplication" />
-      <module name="auth-services" />
+      <module name="auth-service" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="AuthAPI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="auth-service" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="auth-service" />
+      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>

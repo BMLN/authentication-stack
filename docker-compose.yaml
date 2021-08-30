@@ -6,13 +6,21 @@ services:
   #  depends_on:
   #    - keycloak
   #  environment:
-  #    AUTH_USER: ${ADMIN_USER}
-  #    AUTH_PASSWORD: ${ADMIN_PASSWORD}
+  #    ADMIN_USER: ${ADMIN_USER}
+  #    ADMIN_PASS: ${ADMIN_PASS}
+  #    ADMIN_REALM: ${ADMIN_REALM}
+  #    ADMIN_CLIENT: ${ADMIN_CLIENT}
+  #    KEYCLOAK_URL: ${KEYCLOAK_URL}
+  #    KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+  #    KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+  #    AUTH_PORT: ${AUTH_PORT}
   #  networks:
   #    - auth_network
 
   postgres:
     image: postgres:13.2
+    volumes:
+      - postgres_data:/usr/apps/authentication-stack/postgres_data
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -21,6 +29,7 @@ services:
       - auth_network
 
   keycloak:
+    image: jboss/keycloak:13.0.0
     depends_on:
       - postgres
     environment:
@@ -31,7 +40,6 @@ services:
       DB_PASSWORD: ${DB_PASS}
       KEYCLOAK_USER: ${ADMIN_USER}
       KEYCLOAK_PASSWORD: ${ADMIN_PASS}
-    image: jboss/keycloak:13.0.0
     ports:
       - "8080:8080"
     networks:
@@ -39,3 +47,5 @@ services:
 
 networks:
   auth_network:
+volumes:
+  postgres_data:
