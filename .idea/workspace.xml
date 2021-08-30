@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c958ed63-dce0-40ae-bd97-15b8e3255452" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/credentials/keycloak.env" beforeDir="false" afterPath="$PROJECT_DIR$/credentials/keycloak.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +69,13 @@
       <envs>
         <env name="ADMIN_USER" value="uncleben" />
         <env name="ADMIN_PASS" value="whoaheyisthatkevin" />
-        <env name="KEYCLOAK_REALM" value="master" />
+        <env name="KEYCLOAK_URL" value="http://localhost:8080/auth" />
+        <env name="KEYCLOAK_REALM" value="auth-realm" />
+        <env name="KEYCLOAK_CLIENT" value="auth-client" />
+        <env name="ADMIN_REALM" value="master" />
+        <env name="ADMIN_CLIENT" value="admin-cli" />
+        <env name="USE_NEW" value="true" />
+        <env name="AUTH_PORT" value="1337" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="AuthAPI.AuthApiApplication" />
       <module name="auth-services" />

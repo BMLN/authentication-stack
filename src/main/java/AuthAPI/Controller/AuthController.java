@@ -9,34 +9,25 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.KeycloakPrincipal;
-import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.admin.client.token.TokenManager;
-import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.util.HttpResponseException;
 import org.keycloak.representations.AccessTokenResponse;
-import org.keycloak.representations.idm.ClientInitialAccessCreatePresentation;
+import org.keycloak.representations.idm.ClientRepresentation;
+import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.keycloak.representations.idm.authorization.AuthorizationRequest;
-import org.keycloak.representations.idm.authorization.AuthorizationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.NotFoundException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,46 +39,79 @@ import java.util.List;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private RealmResource realmController;
-    private Keycloak keycloak;
+    @Value("${keycloak.auth-server-url}")
+    private String keycloakURL;
 
-    //private AuthzClient az = AuthzClient.create();
+    private RealmResource realmController;
+    private String authRealm;
+    private String authClient;
 
     @Autowired
-    private void connectToRealmController( @Value("${auth.user}") String username,
+    private void connectRealmController(   @Value("${auth.user}") String username,
                                            @Value("${auth.password}") String password,
                                            @Value("${auth.realm}") String realm,
-                                           @Value("${auth.client}") String client){
+                                           @Value("${auth.client}") String client,
+                                           @Value("${auth.use-new}") boolean uses_new,
+                                           @Value("${auth.realm.new}") String new_realm,
+                                           @Value("${auth.client.new}") String new_client){
 
         Keycloak keycloak = Keycloak.getInstance(
-                "http://localhost:8080/auth",
+                keycloakURL,
                 realm,
                 username,
                 password,
                 client);
-        this.realmController = keycloak.realm(realm);
-        this.keycloak = keycloak;
+
+        this.authRealm = uses_new ? new_realm : realm;
+        this.authClient = uses_new ? new_client : client;
+        this.realmController = keycloak.realm(authRealm);
+
+        try {
+            keycloak.realms().realm(realm).clients().findAll();
+            System.out.println("KEYCLOAK-CONFIGURATION: successfully connected to admin Controller!");
+        }
+        catch (Exception exception) {
+            System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + exception.getMessage());
+            System.exit(-1);
+        }
 
         try{
-            this.realmController.clients().findAll();
-            //this.realmController.toRepresentation().setAccessTokenLifespan(90);
-            System.out.println("KEYCLOAK-CONFIGURATION: successfully connected to keycloak!");
+            //keycloak.realms().realm(authRealm).clients().findAll();
+            keycloak.realm(authRealm).clients().findAll();
         }
-        catch (Exception e) {
-            System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + e.getMessage());
-        }
+        catch (NotFoundException noRealmException){
+            System.out.println("KEYCLOAK-CONFIGURATION: creating...");
 
+            ClientRepresentation authClient = new ClientRepresentation();
+            authClient.setClientId(new_client);
+            authClient.setPublicClient(true);
+            authClient.setDirectAccessGrantsEnabled(true);
+            authClient.setEnabled(true);
+
+            RealmRepresentation newRealm = new RealmRepresentation();
+            newRealm.setRealm(new_realm);
+            newRealm.setAccessTokenLifespan(95);
+            newRealm.setClients(List.of(authClient));
+            newRealm.setEnabled(true);
+            keycloak.realms().create(newRealm);
+        }
+        catch (Exception exception) {
+            System.out.println("KEYCLOAK-CONFIGURATION: failed: " + exception.getMessage());
+            System.exit(-1);
+        }
+        System.out.println("KEYCLOAK-CONFIGURATION: successfully connected to auth Resource!");
     }
 
     private Token getToken(UserCredentials userData){
 
-        Keycloak session = Keycloak.getInstance("http://localhost:8080/auth",
-                "master",
+        AccessTokenResponse session = Keycloak.getInstance(
+                keycloakURL,
+                authRealm,
                 userData.getUsername(),
                 userData.getPassword(),
-                "master-realm");
-        return new Token(session.tokenManager().getAccessToken().getToken(), session.tokenManager().getAccessToken().getRefreshToken(), (int) session.tokenManager().getAccessToken().getExpiresIn());
-        //return new Token(this.az.obtainAccessToken(userData.getUsername(), userData.getPassword()));
+                authClient).tokenManager().getAccessToken();
+
+        return new Token(session.getToken(), session.getRefreshToken(), (int) session.getExpiresIn());
     }
 
 
@@ -154,12 +178,12 @@ public class AuthController {
         //request new accesskey
         //requestbody
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("client_id", "master-realm"));
+        params.add(new BasicNameValuePair("client_id", authClient));
         params.add(new BasicNameValuePair("grant_type", "refresh_token"));
         params.add(new BasicNameValuePair("refresh_token", refreshToken));
 
         //send post request
-        HttpPost request = new HttpPost("http://localhost:8080/auth/realms/master/protocol/openid-connect/token");
+        HttpPost request = new HttpPost(keycloakURL + "/realms/" + authRealm + "/protocol/openid-connect/token");
         request.setEntity(new UrlEncodedFormEntity(params));
         HttpClient client = new DefaultHttpClient();
         org.apache.http.HttpResponse resp = client.execute(request);
@@ -179,7 +203,6 @@ public class AuthController {
         else {
             response = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        System.out.println(resp.toString());
 
         return response;
     }
