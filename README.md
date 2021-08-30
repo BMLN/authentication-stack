@@ -5,7 +5,7 @@ toDo
 - [x] realm isn't configured correctly after startup (needs to be public and have direct access grant enabled) for authentication flow
 - [ ] finish realm configuration through startup
 - [x] remove remaining constants 
-- [ ] catch errors (to make logs cleaner)
+- [x] catch errors (to make logs cleaner)
 - [ ] module name/structure
 - [ ] improve instructions
 - [ ] move to public repository
