@@ -14,7 +14,6 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.authorization.client.util.HttpResponseException;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import java.io.BufferedReader;
@@ -102,24 +100,20 @@ public class AuthController {
 
             clientRepresentation = new ClientRepresentation();
             clientRepresentation.setClientId(authClient);
-            clientRepresentation.setPublicClient(true);
-            clientRepresentation.setDirectAccessGrantsEnabled(true);
             clientRepresentation.setEnabled(true);
             keycloak.realm(authRealm).clients().create(clientRepresentation);
         }
 
-        /*
         System.out.println("KEYCLOAK-CONFIGURATION: adjusting client settings...");
-        clientRepresentation.setPublicClient(true);
-        clientRepresentation.setDirectAccessGrantsEnabled(true);
 
-        RealmRepresentation realmRepresentation = keycloak.realm(authRealm).toRepresentation();
+        ClientResource clientController = keycloak.realm(authRealm).clients().get(keycloak.realm(authRealm).clients().findByClientId(authClient).get(0).getId());
+        ClientRepresentation cc = clientController.toRepresentation();
+        cc.setPublicClient(true);
+        cc.setDirectAccessGrantsEnabled(true);
+        cc.setEnabled(true);
+        clientController.update(cc);
 
-        keycloak.realm(authRealm).clients().findAll();
-        //keycloak.realm(authRealm).clients().create(clientRepresentation);
-        keycloak.realm(authRealm).clients().get(authClient).update(clientRepresentation);
 
-        */
 
         try {
             keycloak.realm(authRealm).clients().findAll();

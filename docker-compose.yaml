@@ -29,7 +29,7 @@ services:
       - auth_network
 
   keycloak:
-    image: jboss/keycloak:13.0.0
+    image: jboss/keycloak:latest
     depends_on:
       - postgres
     environment:

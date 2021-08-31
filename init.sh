@@ -24,5 +24,5 @@ AUTH_PORT=1337" >> ./configuration/generated.env
 ########################################################################
 
 ########################################################################
-sudo docker-compose --env-file ./configuration/generated.env up        #
+sudo docker-compose --env-file ./configuration/generated_auth.env up        #
 ########################################################################

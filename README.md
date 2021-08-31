@@ -3,12 +3,13 @@
 toDo
 - [x] add key generation for init script
 - [x] realm isn't configured correctly after startup (needs to be public and have direct access grant enabled) for authentication flow
-- [ ] finish realm configuration through startup
+- [x] finish realm configuration through startup
 - [ ] restarting only works after comletely detaching old containers and daza
 - [x] remove remaining constants 
 - [x] catch errors (to make logs cleaner)
 - [x] module name/structure
 - [x] improve instructions
+- [ ] clean up 
 - [ ] move to public repository
 
 
@@ -24,7 +25,7 @@ to start the instance with newly generated credentials, run:
 
 or use the credentials defined in /configuration/auth.env - those can be easily changed there
 
-    sudo docker-compose --env-file ./configuration/auth.env up
+    sudo docker-compose --env-file ./configuration/default.env up
 
 ## secure your application with the authentication-stack
 
