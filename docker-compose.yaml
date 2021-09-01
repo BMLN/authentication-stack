@@ -1,21 +1,23 @@
 version: '3.4'
 
 services:
-  #auth_interface:
-  #  build: .
-  #  depends_on:
-  #    - keycloak
-  #  environment:
-  #    ADMIN_USER: ${ADMIN_USER}
-  #    ADMIN_PASS: ${ADMIN_PASS}
-  #    ADMIN_REALM: ${ADMIN_REALM}
-  #    ADMIN_CLIENT: ${ADMIN_CLIENT}
-  #    KEYCLOAK_URL: ${KEYCLOAK_URL}
-  #    KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-  #    KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
-  #    AUTH_PORT: ${AUTH_PORT}
-  #  networks:
-  #    - auth_network
+  auth_interface:
+    build: .
+    depends_on:
+      - keycloak
+    environment:
+      ADMIN_USER: ${ADMIN_USER}
+      ADMIN_PASS: ${ADMIN_PASS}
+      ADMIN_REALM: ${ADMIN_REALM}
+      ADMIN_CLIENT: ${ADMIN_CLIENT}
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+      AUTH_PORT: ${AUTH_PORT}
+    ports:
+      - "${AUTH_PORT}:${AUTH_PORT}"
+    networks:
+      - auth_network
 
   postgres:
     image: postgres:13.2
@@ -40,8 +42,8 @@ services:
       DB_PASSWORD: ${DB_PASS}
       KEYCLOAK_USER: ${ADMIN_USER}
       KEYCLOAK_PASSWORD: ${ADMIN_PASS}
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
     networks:
       - auth_network
 

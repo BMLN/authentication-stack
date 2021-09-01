@@ -55,7 +55,7 @@ public class AuthController {
     private void connectRealmController(   @Value("${auth.user}") String username,
                                            @Value("${auth.password}") String password,
                                            @Value("${auth.realm}") String realm,
-                                           @Value("${auth.client}") String client){
+                                           @Value("${auth.client}") String client) throws InterruptedException {
 
         Keycloak keycloak = Keycloak.getInstance(
                 keycloakURL,
@@ -64,13 +64,19 @@ public class AuthController {
                 password,
                 client);
 
-        try {
-            keycloak.realm(realm).clients().findAll();
-            System.out.println("KEYCLOAK-CONFIGURATION: connected the admin Controller");
-        }
-        catch (Exception exception) {
-            System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + exception.getMessage());
-            System.exit(-1);
+        for(int i = 0; i <= 5; i++){
+            System.out.println("KEYCLOAK-CONFIGURATION: connecting...");
+            try {
+                keycloak.realm(realm).clients().findAll();
+                i = 5;
+                System.out.println("KEYCLOAK-CONFIGURATION: connected the admin Controller");
+            } catch (Exception exception) {
+                Thread.sleep(30 * 1000);
+                if(i == 5) {
+                    System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + exception.getMessage());
+                    System.exit(-1);
+                }
+            }
         }
 
         try {

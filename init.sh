@@ -16,7 +16,7 @@ ADMIN_CLIENT=admin-cli\n\
 ADMIN_USER=$(openssl rand -hex 24)\n\
 ADMIN_PASS=$(openssl rand -hex 24)\n\
 \n\
-KEYCLOAK_URL=http://localhost:8080/auth\n\
+KEYCLOAK_URL=http://keycloak:8080/auth\n\
 KEYCLOAK_REALM=auth-realm\n\
 KEYCLOAK_CLIENT=auth-client\n\
 \n\
