@@ -5,7 +5,7 @@
 - dedicated service for access requests
 - keycloak instance to offer access management for other services
 - utilize tokens to access protected services
-- easy to build on and 
+- easy to build on 
 - easy to modify for your needs
 
 ## quickstart
