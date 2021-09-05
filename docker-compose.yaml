@@ -15,7 +15,7 @@ services:
       KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
       AUTH_PORT: ${AUTH_PORT}
     ports:
-      - "${AUTH_PORT}:${AUTH_PORT}"
+      - "${AUTH_PORT:-1337}:${AUTH_PORT:-1337}"
     networks:
       - auth_network
 

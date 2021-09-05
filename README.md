@@ -1,33 +1,22 @@
-# authentication-stack
-## not ready yet!
-toDo
-- [x] add key generation for init script
-- [x] realm isn't configured correctly after startup (needs to be public and have direct access grant enabled) for authentication flow
-- [x] finish realm configuration through startup
-- [ ] restarting only works after comletely detaching old containers and daza
-- [x] remove remaining constants 
-- [x] catch errors (to make logs cleaner)
-- [x] module name/structure
-- [x] improve instructions
-- [ ] clean up 
-- [ ] move to public repository
+# ready2go keycloak-authentication-stack
 
 
-## ready2go keycloak authentication stack
-- exposed API for access requests
+## features
+- dedicated service for access requests
 - keycloak instance to offer access management for other services
 - utilize tokens to access protected services
+- easy to build on and to modify for your needs
 
 ## quickstart
 to start the instance with newly generated credentials, run:
 
     ./init.sh
 
-or use the credentials defined in /configuration/auth.env - those can be easily changed there
+or use the credentials defined in /configuration/default.env - those can be easily changed there
 
     sudo docker-compose --env-file ./configuration/default.env up
 
-## secure your application with the authentication-stack
+## secure your services with the authentication-stack
 
 The project we used this for had only Services that also used Spring. 
 So all we had to do was to add those services to the docker-compose file, 

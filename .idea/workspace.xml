@@ -6,14 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c958ed63-dce0-40ae-bd97-15b8e3255452" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/default.env" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/default.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/configuration/generated.env" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/generated.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/generated_auth.env" beforeDir="false" afterPath="$PROJECT_DIR$/configuration/generated_auth.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/init.sh" beforeDir="false" afterPath="$PROJECT_DIR$/init.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AuthAPI/Controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
