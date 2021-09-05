@@ -1,8 +1,0 @@
-{
-  "realm" : "$KEYCLOAK_REALM",
-  "auth-server-url" : "http://localhost:8080/auth",
-  "resource" : "$KEYCLOAK_CLIENT",
-  "credentials" : {
-    "secret" : ""
-  }
-}

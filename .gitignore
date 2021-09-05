@@ -1,2 +1,4 @@
 .idea
+auth-service.iml
 target
+/configuration/generated.env
