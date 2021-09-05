@@ -7,16 +7,7 @@
     <list default="true" id="c958ed63-dce0-40ae-bd97-15b8e3255452" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authapi.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/generated.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuration/generated_auth.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/init.sh" beforeDir="false" afterPath="$PROJECT_DIR$/init.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/AuthApiApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Controller/AuthController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Model/Token.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/AuthAPI/Model/UserCredentials.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/keycloak.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/keycloak.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
