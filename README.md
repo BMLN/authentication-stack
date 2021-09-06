@@ -35,4 +35,4 @@ The project where we built on this had only Services that also used Spring, so t
     keycloak.security-constraints[0].securityCollections[0].patterns[0] = <your/protected/endpoint>
     
 
-#### *and that's everything that is needed to now only accept requests with valid tokens to your protected endpoints!*
+#### *and that's everything that is needed to now only accept requests with valid tokens to your services!*
