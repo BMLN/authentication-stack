@@ -19,8 +19,8 @@ or use the credentials defined in /configuration/default.env - those can be easi
 
 ## secure your services with the authentication-stack
 
-The project we used this for had only Services that also used Spring. 
-So all we had to do was to add those services to the docker-compose file, 
+The project we used this for had only Services that also used Spring, so the configuration was pretty simple:
+add those services to the docker-compose file, 
 include them in the docker-network and configure
 their keycloak spring adapter through the application.properties file, like:              
 
