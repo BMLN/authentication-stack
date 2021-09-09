@@ -7,6 +7,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.keycloak.KeycloakPrincipal;
@@ -64,71 +65,69 @@ public class AuthController {
                 password,
                 client);
 
-        for(int i = 0; i <= 5; i++){
-            System.out.println("KEYCLOAK-CONFIGURATION: connecting...");
-            try {
-                keycloak.realm(realm).clients().findAll();
-                i = 5;
-                System.out.println("KEYCLOAK-CONFIGURATION: connected the admin Controller");
-            } catch (Exception exception) {
-                Thread.sleep(30 * 1000);
-                if(i == 5) {
-                    System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + exception.getMessage());
-                    System.exit(-1);
+        this.realmController = keycloak.realm(realm);
+
+        try {
+            for (int i = 0; i <= 5; i++) {
+                System.out.println("KEYCLOAK-CONFIGURATION: connecting...");
+                try {
+                    realmController.clients().findAll();
+                    i = 5;
+                    System.out.println("KEYCLOAK-CONFIGURATION: connected the admin Controller");
+                } catch (Exception exception) {
+                    if (i == 5) {
+                        System.out.println("KEYCLOAK-CONFIGURATION: couldn't connect to keycloak: " + exception.getMessage());
+                        throw new ConnectTimeoutException(exception.getMessage());
+                    }
+                    Thread.sleep(30 * 1000);
                 }
             }
-        }
-
-        try {
-            keycloak.realm(authRealm).clients().findAll();
-        }
-        catch (NotFoundException noRealmException){
-            System.out.println("KEYCLOAK-CONFIGURATION: creating realm...");
-
-            RealmRepresentation newRealm = new RealmRepresentation();
-            newRealm.setRealm(authRealm);
-            newRealm.setAccessTokenLifespan(3 * 60 * 24);
-            newRealm.setEnabled(true);
-            keycloak.realms().create(newRealm);
-
-        }
-        catch (Exception exception) {
-            //shouldn't occur?
-            System.out.println("KEYCLOAK-CONFIGURATION: failed: " + exception.getMessage());
-            System.exit(-1);
-        }
-
-        List<ClientRepresentation> clients = keycloak.realm(authRealm).clients().findByClientId(authClient);
-        ClientRepresentation clientRepresentation = clients.isEmpty() ? null : clients.get(0);
-
-        if(clientRepresentation == null){
-            System.out.println("KEYCLOAK-CONFIGURATION: creating client...");
-
-            clientRepresentation = new ClientRepresentation();
-            clientRepresentation.setClientId(authClient);
-            clientRepresentation.setEnabled(true);
-            keycloak.realm(authRealm).clients().create(clientRepresentation);
-        }
-
-        System.out.println("KEYCLOAK-CONFIGURATION: adjusting client settings...");
-
-        ClientResource clientController = keycloak.realm(authRealm).clients().get(keycloak.realm(authRealm).clients().findByClientId(authClient).get(0).getId());
-        ClientRepresentation cc = clientController.toRepresentation();
-        cc.setPublicClient(true);
-        cc.setDirectAccessGrantsEnabled(true);
-        cc.setEnabled(true);
-        clientController.update(cc);
 
 
+            try {
+                System.out.println("KEYCLOAK-CONFIGURATION: connecting to realm...");
 
-        try {
-            keycloak.realm(authRealm).clients().findAll();
+                this.realmController = keycloak.realm(authRealm);
+                realmController.clients().findAll();
+
+            } catch (NotFoundException noRealmException) {
+                System.out.println("KEYCLOAK-CONFIGURATION: creating realm...");
+
+                RealmRepresentation newRealm = new RealmRepresentation();
+                newRealm.setRealm(authRealm);
+                newRealm.setAccessTokenLifespan(3 * 60 * 24);
+                newRealm.setEnabled(true);
+                keycloak.realms().create(newRealm);
+            }
+
+
+            if(this.realmController.clients().findByClientId(authClient).isEmpty()){
+
+                System.out.println("KEYCLOAK-CONFIGURATION: creating client...");
+
+                ClientRepresentation clientRepresentation  = new ClientRepresentation();
+                clientRepresentation.setClientId(authClient);
+                clientRepresentation.setEnabled(true);
+                this.realmController.clients().create(clientRepresentation);
+            }
+
+
+            System.out.println("KEYCLOAK-CONFIGURATION: adjusting client settings...");
+
+            ClientResource clientController = this.realmController.clients().get(this.realmController.clients().findByClientId(authClient).get(0).getId());
+            ClientRepresentation cc = clientController.toRepresentation();
+            cc.setPublicClient(true);
+            cc.setDirectAccessGrantsEnabled(true);
+            cc.setEnabled(true);
+            clientController.update(cc);
+
+
+            this.realmController.clients().findAll();
             System.out.println("KEYCLOAK-CONFIGURATION: successfully connected to auth Resource!");
 
-            this.realmController = keycloak.realm(authRealm);
         }
-        catch (Exception exception){
-            System.out.println("KEYCLOAK-CONFIGURATION: failed: " + exception.getMessage());
+        catch (Exception keycloakConException){
+            System.out.println("KEYCLOAK-CONFIGURATION: failed: " + keycloakConException.getMessage());
             System.exit(-1);
         }
 
